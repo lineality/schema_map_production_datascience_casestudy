@@ -6,6 +6,10 @@ archive/
 data/
 logs/
 
+
+schema_mapping_output_*
+schema_mapper_metadata_report_*
+
 test_empty/
 test_temp/
 
