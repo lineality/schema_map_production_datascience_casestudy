@@ -1,0 +1,67 @@
+
+{
+  "database": "people_platform",
+  "type": "MongoDB (Document)",
+  "collections": {
+    "employees": {
+      "_id":                    ObjectId
+      "employeeCode":           String           -- unique human-readable ID
+      "fullName": {
+        "firstName":            String
+        "lastName":             String
+      },
+      "employment": {
+        "startDate":            ISODate
+        "endDate":              ISODate          -- null if currently employed
+        "status":               String           -- active / inactive / terminated
+        "jobLevel":             String           -- e.g. L1, IC3, M1
+        "isRemote":             Boolean
+        "managerId":            ObjectId         -- ref -> employees._id
+      },
+      "compensation": {
+        "baseSalary":           Number
+        "currency":             String           -- ISO 4217
+      },
+      "contact": {
+        "email":                String
+        "phone":                String
+      },
+      "department": {
+        "departmentId":         ObjectId         -- ref -> departments._id
+        "code":                 String
+        "name":                 String
+      },
+      "location": {
+        "locationId":           ObjectId         -- ref -> locations._id
+        "code":                 String
+        "name":                 String
+        "city":                 String
+        "country":              String           -- ISO 3166-1 alpha-2
+        "timezone":             String           -- IANA timezone
+      },
+      "meta": {
+        "createdAt":            ISODate
+        "updatedAt":            ISODate
+      }
+    },
+    "departments": {
+      "_id":                    ObjectId
+      "code":                   String
+      "name":                   String
+      "parentDepartmentId":     ObjectId         -- self-ref
+      "headEmployeeId":         ObjectId         -- ref -> employees._id
+      "costCenterCode":         String
+      "isActive":               Boolean
+    },
+    "locations": {
+      "_id":                    ObjectId
+      "code":                   String
+      "name":                   String
+      "city":                   String
+      "stateOrProvince":        String
+      "country":                String           -- ISO 3166-1 alpha-2
+      "postalCode":             String
+      "timezone":               String
+    }
+  }
+}

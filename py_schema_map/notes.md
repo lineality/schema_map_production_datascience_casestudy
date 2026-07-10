@@ -1,0 +1,4 @@
+
+
+MISTRAL_MODEL_NAME=mistral-large-2512
+MISTRAL_MODEL_NAME=mistral-medium-2508

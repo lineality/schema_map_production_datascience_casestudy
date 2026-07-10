@@ -1,0 +1,302 @@
+{
+  "mapping_version": "1.0",
+  "source": "legacy_hrm (MySQL)",
+  "destination": "people_platform (MongoDB)",
+  "generated_at": "2026-07-10T01:43:56Z",
+  "tables": [
+    {
+      "source_table": "emp_master",
+      "destination_collection": "employees",
+      "confidence": 0.99,
+      "reasoning": "Table 'emp_master' and collection 'employees' share canonical name tokens after abbreviation expansion.",
+      "field_mappings": [
+        {
+          "source_field": "emp_id",
+          "destination_field": "_id",
+          "type_transform": "INT -> ObjectId",
+          "confidence": 0.99,
+          "reasoning": "Token overlap after abbreviation expansion ('emp_id' -> [employee, id] vs '_id'), supported by string similarity and type compatibility (score 0.99).",
+          "notes": "Store original emp_id as a legacy field for traceability; ID generation strategy required."
+        },
+        {
+          "source_field": "emp_cd",
+          "destination_field": "employeeCode",
+          "type_transform": "VARCHAR(20) -> String",
+          "confidence": 0.97,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('emp_cd' and 'employeeCode' both reduce to [employee, code]); declared types VARCHAR(20) and String. Confidence reduced below score due to a close runner-up candidate.",
+          "notes": null
+        },
+        {
+          "source_field": "f_name",
+          "destination_field": "fullName.firstName",
+          "type_transform": "VARCHAR(50) -> String (nested path)",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('f_name' and 'firstName' both reduce to [first, name]); declared types VARCHAR(50) and String.",
+          "notes": null
+        },
+        {
+          "source_field": "l_name",
+          "destination_field": "fullName.lastName",
+          "type_transform": "VARCHAR(50) -> String (nested path)",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('l_name' and 'lastName' both reduce to [last, name]); declared types VARCHAR(50) and String.",
+          "notes": null
+        },
+        {
+          "source_field": "hire_dt",
+          "destination_field": "employment.startDate",
+          "type_transform": "DATETIME -> ISODate (nested path)",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('hire_dt' and 'startDate' both reduce to [start, date]); declared types DATETIME and ISODate.",
+          "notes": null
+        },
+        {
+          "source_field": "term_dt",
+          "destination_field": "employment.endDate",
+          "type_transform": "DATETIME -> ISODate (nested path)",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('term_dt' and 'endDate' both reduce to [end, date]); declared types DATETIME and ISODate.",
+          "notes": null
+        },
+        {
+          "source_field": "dept_id",
+          "destination_field": "department.departmentId",
+          "type_transform": "INT -> ObjectId (nested path)",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('dept_id' and 'departmentId' both reduce to [department, id]); declared types INT and ObjectId.",
+          "notes": "ID remapping required: legacy integer foreign key becomes ObjectId reference."
+        },
+        {
+          "source_field": "mgr_emp_id",
+          "destination_field": "employment.managerId",
+          "type_transform": "INT -> ObjectId (nested path)",
+          "confidence": 0.99,
+          "reasoning": "Token overlap after abbreviation expansion ('mgr_emp_id' -> [manager, employee, id] vs 'managerId'), supported by string similarity and type compatibility (score 0.99).",
+          "notes": "ID remapping required: legacy integer foreign key becomes ObjectId reference."
+        },
+        {
+          "source_field": "job_lvl_cd",
+          "destination_field": "employment.jobLevel",
+          "type_transform": "VARCHAR(10) -> String (nested path)",
+          "confidence": 0.90,
+          "reasoning": "Token overlap after abbreviation expansion ('job_lvl_cd' -> [job, level, code] vs 'jobLevel'), supported by string similarity and type compatibility (score 0.90).",
+          "notes": null
+        },
+        {
+          "source_field": "base_sal",
+          "destination_field": "compensation.baseSalary",
+          "type_transform": "DECIMAL(12,2) -> Number (nested path)",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('base_sal' and 'baseSalary' both reduce to [base, salary]); declared types DECIMAL(12,2) and Number.",
+          "notes": null
+        },
+        {
+          "source_field": "sal_currency",
+          "destination_field": "compensation.currency",
+          "type_transform": "CHAR(3) -> String (nested path)",
+          "confidence": 0.75,
+          "reasoning": "Token overlap after abbreviation expansion ('sal_currency' -> [salary, currency] vs 'currency'), supported by string similarity and type compatibility (score 0.75).",
+          "notes": null
+        },
+        {
+          "source_field": "work_email",
+          "destination_field": "contact.email",
+          "type_transform": "VARCHAR(120) -> String (nested path)",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('work_email' and 'email' both reduce to [email]); declared types VARCHAR(120) and String.",
+          "notes": null
+        },
+        {
+          "source_field": "work_phone",
+          "destination_field": "contact.phone",
+          "type_transform": "VARCHAR(20) -> String (nested path)",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('work_phone' and 'phone' both reduce to [phone]); declared types VARCHAR(20) and String.",
+          "notes": null
+        },
+        {
+          "source_field": "office_loc_id",
+          "destination_field": "location.locationId",
+          "type_transform": "INT -> ObjectId (nested path)",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('office_loc_id' and 'locationId' both reduce to [location, id]); declared types INT and ObjectId.",
+          "notes": "ID remapping required: legacy integer foreign key becomes ObjectId reference."
+        },
+        {
+          "source_field": "is_remote",
+          "destination_field": "employment.isRemote",
+          "type_transform": "TINYINT(1) -> Boolean (nested path)",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('is_remote' and 'isRemote' both reduce to [is, remote]); declared types TINYINT(1) and Boolean.",
+          "notes": "Transform: 0 -> false, 1 -> true."
+        },
+        {
+          "source_field": "rec_stat",
+          "destination_field": "employment.status",
+          "type_transform": "CHAR(1) code -> String enum (nested path)",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('rec_stat' and 'status' both reduce to [status]); declared types CHAR(1) and String.",
+          "notes": "Transform: A -> active, I -> inactive, T -> terminated."
+        },
+        {
+          "source_field": "created_ts",
+          "destination_field": "meta.createdAt",
+          "type_transform": "DATETIME -> ISODate (nested path)",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('created_ts' and 'createdAt' both reduce to [created]); declared types DATETIME and ISODate.",
+          "notes": null
+        },
+        {
+          "source_field": "updated_ts",
+          "destination_field": "meta.updatedAt",
+          "type_transform": "DATETIME -> ISODate (nested path)",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('updated_ts' and 'updatedAt' both reduce to [updated]); declared types DATETIME and ISODate.",
+          "notes": null
+        }
+      ],
+      "unmapped_source_fields": ["dob"],
+      "unmapped_destination_fields": ["department.code", "department.name", "location.code", "location.name", "location.city", "location.country", "location.timezone"]
+    },
+    {
+      "source_table": "dept_info",
+      "destination_collection": "departments",
+      "confidence": 0.99,
+      "reasoning": "Table 'dept_info' and collection 'departments' share canonical name tokens after abbreviation expansion.",
+      "field_mappings": [
+        {
+          "source_field": "dept_id",
+          "destination_field": "_id",
+          "type_transform": "INT -> ObjectId",
+          "confidence": 0.99,
+          "reasoning": "Token overlap after abbreviation expansion ('dept_id' -> [department, id] vs '_id'), supported by string similarity and type compatibility (score 0.99).",
+          "notes": "Store original dept_id as a legacy field for traceability; ID generation strategy required."
+        },
+        {
+          "source_field": "dept_cd",
+          "destination_field": "code",
+          "type_transform": "VARCHAR(20) -> String",
+          "confidence": 0.88,
+          "reasoning": "Token overlap after abbreviation expansion ('dept_cd' -> [department, code] vs 'code'), supported by string similarity and type compatibility (score 0.88).",
+          "notes": null
+        },
+        {
+          "source_field": "dept_nm",
+          "destination_field": "name",
+          "type_transform": "VARCHAR(100) -> String",
+          "confidence": 0.88,
+          "reasoning": "Token overlap after abbreviation expansion ('dept_nm' -> [department, name] vs 'name'), supported by string similarity and type compatibility (score 0.88).",
+          "notes": null
+        },
+        {
+          "source_field": "parent_dept_id",
+          "destination_field": "parentDepartmentId",
+          "type_transform": "INT -> ObjectId",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('parent_dept_id' and 'parentDepartmentId' both reduce to [parent, department, id]); declared types INT and ObjectId.",
+          "notes": "ID remapping required: legacy integer foreign key becomes ObjectId reference."
+        },
+        {
+          "source_field": "dept_head_id",
+          "destination_field": "headEmployeeId",
+          "type_transform": "INT -> ObjectId",
+          "confidence": 0.89,
+          "reasoning": "Token overlap after abbreviation expansion ('dept_head_id' -> [department, head, id] vs 'headEmployeeId'), supported by string similarity and type compatibility (score 0.89).",
+          "notes": "ID remapping required: legacy integer foreign key becomes ObjectId reference."
+        },
+        {
+          "source_field": "cost_ctr_cd",
+          "destination_field": "costCenterCode",
+          "type_transform": "VARCHAR(20) -> String",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('cost_ctr_cd' and 'costCenterCode' both reduce to [cost, center, code]); declared types VARCHAR(20) and String.",
+          "notes": null
+        },
+        {
+          "source_field": "dept_stat",
+          "destination_field": "isActive",
+          "type_transform": "CHAR(1) code -> Boolean",
+          "confidence": 0.85,
+          "reasoning": "Domain rule: two-valued coded column 'dept_stat' maps to Boolean 'isActive'.",
+          "notes": "Transform: A -> true, I -> false."
+        }
+      ],
+      "unmapped_source_fields": [],
+      "unmapped_destination_fields": []
+    },
+    {
+      "source_table": "locations",
+      "destination_collection": "locations",
+      "confidence": 0.99,
+      "reasoning": "Table 'locations' and collection 'locations' share canonical name tokens after abbreviation expansion.",
+      "field_mappings": [
+        {
+          "source_field": "loc_id",
+          "destination_field": "_id",
+          "type_transform": "INT -> ObjectId",
+          "confidence": 0.99,
+          "reasoning": "Token overlap after abbreviation expansion ('loc_id' -> [location, id] vs '_id'), supported by string similarity and type compatibility (score 0.99).",
+          "notes": "Store original loc_id as a legacy field for traceability; ID generation strategy required."
+        },
+        {
+          "source_field": "loc_cd",
+          "destination_field": "code",
+          "type_transform": "VARCHAR(20) -> String",
+          "confidence": 0.88,
+          "reasoning": "Token overlap after abbreviation expansion ('loc_cd' -> [location, code] vs 'code'), supported by string similarity and type compatibility (score 0.88).",
+          "notes": null
+        },
+        {
+          "source_field": "loc_nm",
+          "destination_field": "name",
+          "type_transform": "VARCHAR(100) -> String",
+          "confidence": 0.88,
+          "reasoning": "Token overlap after abbreviation expansion ('loc_nm' -> [location, name] vs 'name'), supported by string similarity and type compatibility (score 0.88).",
+          "notes": null
+        },
+        {
+          "source_field": "city",
+          "destination_field": "city",
+          "type_transform": "VARCHAR(80) -> String",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('city' and 'city' both reduce to [city]); declared types VARCHAR(80) and String.",
+          "notes": null
+        },
+        {
+          "source_field": "state_prov",
+          "destination_field": "stateOrProvince",
+          "type_transform": "VARCHAR(80) -> String",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('state_prov' and 'stateOrProvince' both reduce to [state, province]); declared types VARCHAR(80) and String.",
+          "notes": null
+        },
+        {
+          "source_field": "country_cd",
+          "destination_field": "country",
+          "type_transform": "CHAR(2) -> String",
+          "confidence": 0.81,
+          "reasoning": "Token overlap after abbreviation expansion ('country_cd' -> [country, code] vs 'country'), supported by string similarity and type compatibility (score 0.81).",
+          "notes": null
+        },
+        {
+          "source_field": "postal_cd",
+          "destination_field": "postalCode",
+          "type_transform": "VARCHAR(20) -> String",
+          "confidence": 0.99,
+          "reasoning": "Exact canonical-token match after abbreviation expansion ('postal_cd' and 'postalCode' both reduce to [postal, code]); declared types VARCHAR(20) and String.",
+          "notes": null
+        },
+        {
+          "source_field": "tz_cd",
+          "destination_field": "timezone",
+          "type_transform": "VARCHAR(50) -> String",
+          "confidence": 0.72,
+          "reasoning": "Token overlap after abbreviation expansion ('tz_cd' -> [timezone, code] vs 'timezone'), supported by string similarity and type compatibility (score 0.72).",
+          "notes": null
+        }
+      ],
+      "unmapped_source_fields": [],
+      "unmapped_destination_fields": []
+    }
+  ]
+}

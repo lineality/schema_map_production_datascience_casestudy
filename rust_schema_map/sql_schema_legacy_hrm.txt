@@ -1,0 +1,47 @@
+
+{
+  "database": "legacy_hrm",
+  "type": "MySQL (Relational)",
+  "tables": {
+    "emp_master": {
+      "emp_id":        INT            PRIMARY KEY
+      "emp_cd":        VARCHAR(20)    UNIQUE NOT NULL    -- human-readable employee code
+      "f_name":        VARCHAR(50)    NOT NULL
+      "l_name":        VARCHAR(50)    NOT NULL
+      "dob":           DATE
+      "hire_dt":       DATETIME
+      "term_dt":       DATETIME                         -- null if still active
+      "dept_id":       INT            FK -> dept_info.dept_id
+      "mgr_emp_id":    INT            FK -> emp_master.emp_id
+      "job_lvl_cd":    VARCHAR(10)                      -- e.g. L1, L2, IC3, M1
+      "base_sal":      DECIMAL(12,2)
+      "sal_currency":  CHAR(3)                          -- ISO 4217, e.g. USD
+      "work_email":    VARCHAR(120)   UNIQUE
+      "work_phone":    VARCHAR(20)
+      "office_loc_id": INT            FK -> locations.loc_id
+      "is_remote":     TINYINT(1)                       -- 0 or 1
+      "rec_stat":      CHAR(1)                          -- A=Active, I=Inactive, T=Terminated
+      "created_ts":    DATETIME                         -- record creation timestamp
+      "updated_ts":    DATETIME                         -- last update timestamp
+    },
+    "dept_info": {
+      "dept_id":         INT            PRIMARY KEY
+      "dept_cd":         VARCHAR(20)    UNIQUE
+      "dept_nm":         VARCHAR(100)
+      "parent_dept_id":  INT            FK -> dept_info.dept_id   -- self-referencing
+      "dept_head_id":    INT            FK -> emp_master.emp_id
+      "cost_ctr_cd":     VARCHAR(20)                    -- finance cost center code
+      "dept_stat":       CHAR(1)                        -- A=Active, I=Inactive
+    },
+    "locations": {
+      "loc_id":       INT            PRIMARY KEY
+      "loc_cd":       VARCHAR(20)    UNIQUE
+      "loc_nm":       VARCHAR(100)
+      "city":         VARCHAR(80)
+      "state_prov":   VARCHAR(80)
+      "country_cd":   CHAR(2)                           -- ISO 3166-1 alpha-2
+      "postal_cd":    VARCHAR(20)
+      "tz_cd":        VARCHAR(50)                       -- IANA timezone
+    }
+  }
+}
