@@ -1,0 +1,109 @@
+{
+  "run_started_at": "2026-07-09T22:43:41.945343+00:00",
+  "run_finished_at": "2026-07-09T22:45:09.565328+00:00",
+  "total_runtime_seconds": 87.62,
+  "model_used": "mistral-medium-2508",
+  "llm_call_count": 6,
+  "llm_call_durations_seconds": [
+    34.798568470992905,
+    13.876833249996707,
+    13.08089351599483,
+    14.4967555070034,
+    3.8958858210025937,
+    7.427731101000973
+  ],
+  "average_llm_call_seconds": 14.596,
+  "errors": [],
+  "validation_issues": [
+    "Table 'locations' validation attempt 1/10: unmapped_destination_fields contains 'locationId' which is not a valid dot-path in collection 'locations'."
+  ],
+  "destination_field_collisions": [],
+  "auto_corrections": [],
+  "globally_unmapped_destination_fields": {
+    "employees": [
+      "department.code",
+      "department.name",
+      "location.city",
+      "location.code",
+      "location.country",
+      "location.name",
+      "location.timezone"
+    ]
+  },
+  "join_derived_field_proposals": [
+    {
+      "destination_collection": "employees",
+      "embedded_parent_path": "department",
+      "join_source_table": "dept_info",
+      "join_via": "emp_master.dept_id -> dept_info.dept_id",
+      "proposals": [
+        {
+          "destination_field": "department.code",
+          "source_field": "dept_cd",
+          "type_transform": "No transformation needed",
+          "confidence": 0.95,
+          "reasoning": "The field 'dept_cd' in the source table is likely the code for the department.",
+          "notes": null
+        },
+        {
+          "destination_field": "department.name",
+          "source_field": "dept_nm",
+          "type_transform": "No transformation needed",
+          "confidence": 0.95,
+          "reasoning": "The field 'dept_nm' in the source table is likely the name of the department.",
+          "notes": null
+        }
+      ],
+      "unresolvable_destination_fields": []
+    },
+    {
+      "destination_collection": "employees",
+      "embedded_parent_path": "location",
+      "join_source_table": "locations",
+      "join_via": "emp_master.office_loc_id -> locations.loc_id",
+      "proposals": [
+        {
+          "destination_field": "location.city",
+          "source_field": "city",
+          "type_transform": "string",
+          "confidence": 1.0,
+          "reasoning": "The field names are identical and represent the same attribute.",
+          "notes": null
+        },
+        {
+          "destination_field": "location.code",
+          "source_field": "loc_cd",
+          "type_transform": "string",
+          "confidence": 0.9,
+          "reasoning": "The field names are similar and both represent a code attribute.",
+          "notes": null
+        },
+        {
+          "destination_field": "location.country",
+          "source_field": "country_cd",
+          "type_transform": "string",
+          "confidence": 0.9,
+          "reasoning": "The field names are similar and both represent a country attribute.",
+          "notes": null
+        },
+        {
+          "destination_field": "location.name",
+          "source_field": "loc_nm",
+          "type_transform": "string",
+          "confidence": 0.9,
+          "reasoning": "The field names are similar and both represent a name attribute.",
+          "notes": null
+        },
+        {
+          "destination_field": "location.timezone",
+          "source_field": "tz_cd",
+          "type_transform": "string",
+          "confidence": 0.9,
+          "reasoning": "The field names are similar and both represent a timezone attribute.",
+          "notes": null
+        }
+      ],
+      "unresolvable_destination_fields": []
+    }
+  ]
+}
