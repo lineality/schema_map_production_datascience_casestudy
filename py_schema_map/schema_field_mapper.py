@@ -1105,32 +1105,33 @@ def build_per_table_mapping_prompt(
 
     prompt_text = f"""# Database schema mapping task
 
-You are mapping ONE table from a MySQL schema to its semantically
-equivalent collection in a MongoDB schema.
+Task: You are mapping one table from a MySQL schema to its semantically
+equivalent collection in a MongoDB schema. You will see the one MySQL table
+and the entire MongoDB Schema for context.
 
-## Source: one MySQL table (from database legacy system)
+## Source for Map: one MySQL table
 {sql_table_display_fragment}
 
-## Destination: the complete MongoDB schema
+## Destination for Map: complete MongoDB schema
 {full_mongo_schema_text}
 
-## Requirements
+## Requirements:
 1. Choose the single best-matching destination collection for this table.
-2. Map EVERY source field: each source field must appear either in
+2. Account for all source fields: each source field must appear either in
    field_mappings or in unmapped_source_fields. No field may be omitted.
 3. source_field values must be exactly one of:
    {", ".join(sql_table_field_names)}
-4. destination_field values must be a dot-path WITHIN the chosen
+4. destination_field values must be a dot-path in the chosen
    collection (do not prefix the collection name). Valid dot-paths:
 {rendered_valid_destinations}
-5. type_transform: plain text, e.g. "TINYINT(1) -> Boolean".
-6. confidence: a float between 0.0 and 1.0.
-7. reasoning: one plain-English sentence.
+5. type_transform: plain text, e.g. "TINYINT(1) -> Boolean"
+6. confidence: a float between 0.0 and 1.0 (your estimation)
+7. reasoning: one plain-English sentence, e.g. nature of map connection (e.g. exact match)
 8. notes: value-transform logic if required (e.g. code lookups such as
-   "A -> active"), otherwise null.
+   "A -> active"); can comment reason for high or low confidence, otherwise null
 9. unmapped_destination_fields: dot-paths in the chosen collection that
-   no source field of THIS table maps to.
-10. source_table must be exactly "{sql_table_name}".
+   no source field of THIS table maps to
+10. source_table must be exactly "{sql_table_name}"
 {retry_feedback_section}
 11. for primary-key -> _id mappings, notes must state the ID-generation strategy
 Return only the structured mapping object."""

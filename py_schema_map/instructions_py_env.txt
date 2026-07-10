@@ -1,0 +1,39 @@
+# Go to (or make) directory for project,
+# containing .py, requirements.txt,
+# and two DB schema text files
+
+1. build python environment (steps below)
+2. run ```python schema_field_mapper.py```
+
+
+# Follow these bash steps to make python environment
+# (do not install python libraries globally):
+
+python -m venv env
+
+. env/bin/activate
+
+python -m pip install --upgrade pip
+
+python -m pip install -r requirements.txt
+
+
+
+# Optional: cli dev tools
+# (or zed ide has a good built-in linter)
+
+python -m pip install git+https://github.com/psf/black pylint pydocstyle flake8
+
+
+
+# To Use Linters and Formatters
+- .flake8 & .pylintrc config files, have . before name
+```
+$ python -m black FILENAME.py
+$ python -m mypy FILENAME.py
+$ python -m pylint FILENAME.py
+$ python -m pydocstyle FILENAME.py
+$ python -m flake8 FILENAME.py
+
+$ python -m flake8 FILENAME.py --verbose
+```
