@@ -600,63 +600,6 @@ fn token_set_scores(a: &[String], b: &[String]) -> (f64, f64, usize) {
     )
 }
 
-// /// Score one source field against one destination field.
-// /// Composite score: 0.6*jaccard + 0.3*overlap + 0.1*levenshtein,
-// /// +0.05 type-compatibility bonus, +0.25 primary-key-to-_id bonus,
-// /// capped at 0.99. The explicit domain rule (status code -> Boolean)
-// /// is evaluated independently and the higher score wins.
-// fn score_field_pair(source: &SchemaField, dest: &SchemaField) -> (f64, MatchMethod) {
-//     let source_tokens = tokenize(&source.path);
-//     let dest_tokens = tokenize(leaf_name(&dest.path));
-
-//     // --- Signal 1: token-set similarity ---
-//     let (jaccard, overlap, intersection) = token_set_scores(&source_tokens, &dest_tokens);
-//     let source_joined: String = source_tokens.concat();
-//     let dest_joined: String = dest_tokens.concat();
-//     let lev_sim = levenshtein_similarity(&source_joined, &dest_joined);
-//     let mut score = 0.6 * jaccard + 0.3 * overlap + 0.1 * lev_sim;
-
-//     // --- Signal 2: type-compatibility bonus (never a hard gate) ---
-//     if types_compatible(&source.declared_type, &dest.declared_type) {
-//         score += 0.05;
-//     }
-
-//     // --- Signal 3: primary key maps to Mongo _id ---
-//     let source_is_primary_key = source
-//         .annotations
-//         .to_ascii_uppercase()
-//         .contains("PRIMARY KEY");
-//     if source_is_primary_key && leaf_name(&dest.path) == "_id" {
-//         score += 0.25;
-//     }
-
-//     let token_method = if intersection > 0 && (jaccard - 1.0).abs() < f64::EPSILON {
-//         MatchMethod::ExactTokens
-//     } else {
-//         MatchMethod::TokenOverlap
-//     };
-//     let token_score = score.min(0.99);
-
-//     // --- Signal 4: explicit domain rule, evaluated independently ---
-//     // A CHAR(1) column whose tokens include "status" (e.g. dept_stat,
-//     // comment "A=Active, I=Inactive") is semantically a Boolean when the
-//     // destination is a Boolean whose tokens include "active" (isActive).
-//     // This cannot be derived from string similarity; it is documented
-//     // domain knowledge.
-//     let domain_rule_applies = source
-//         .declared_type
-//         .to_ascii_uppercase()
-//         .starts_with("CHAR(1)")
-//         && source_tokens.iter().any(|t| t == "status")
-//         && dest.declared_type == "Boolean"
-//         && dest_tokens.iter().any(|t| t == "active");
-//     if domain_rule_applies && token_score < 0.85 {
-//         return (0.85, MatchMethod::DomainRuleStatusToBoolean);
-//     }
-
-//     (token_score, token_method)
-// }
-
 /// Bonus/penalty when both sides declare a reference and the targets
 /// do / do not correspond under the confirmed table pairing.
 const FK_GRAPH_BONUS: f64 = 0.15;

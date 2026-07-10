@@ -9,6 +9,7 @@ logs/
 
 schema_mapping_output_*
 schema_mapper_metadata_report_*
+schema_mapper_log_*
 
 test_empty/
 test_temp/
