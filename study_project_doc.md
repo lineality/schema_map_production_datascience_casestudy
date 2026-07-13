@@ -226,4 +226,4 @@ Your pipeline must produce a JSON file or object that is compatible with this sc
 
 1. Working code
 2. Generated output JSON for the two schema inputs above
-3. Write-up about prompts and design decisions
+3. Write-up about design decisions
