@@ -7,7 +7,7 @@ We have two database schemas from separate systems:
 ##### Dataset A is a MySQL schema for a legacy HR management system.
 ##### Dataset B is a MongoDB schema for a modern people platform.
 
-The task is to build a pipeline that automatically maps all fields in the source to semantically equivalent fields in the destination (or to list them as unmapped).
+The task is to build a pipeline that automatically maps fields in the source to semantically equivalent fields in the destination, accounting for all the fields being or unmapped.
 
 The pipeline must output a single JSON file or object. For each field mapping, the JSON must include (other fields can be added optionally):
 ```text
@@ -18,14 +18,23 @@ confidence: confidence
 reasoning: reasoning — one plain-English sentence explaining the match
 notes: notes — any value-transform logic required, or null
 ```
+
 #### What approach? Pros and Cons
 Depending on how and where this tool is used, it might be better to use an LLM, or might be better to use traditional NLP (Natural Language Processing).
+Discuss at least two approaches.
 Part 1: Make a python LLM-based solution.
 Part 2: Make a GOFAI-NLP solution (ideally in a production safe language like Rust or Zig)
 Try both approaches and write up your thoughts on strengths and weaknesses of each for possible future uses. Consider real world inputs, outputs, tech debt, costs, & maintainability.
 
-## HARD CONSTRAINT:
-**You cannot pass both schemas to an LLM in a single prompt and receive a finished mapping.**
+As integrating the two in a sensible way may best fit many situations, what how would you design an integration of the strengths of both approaches? For example, depending on a given situation, would you tailor a both parts to the input provided here, or would the role of the LLM be to not work directly on the results by to design a new deterministic (auditable and consistant) system for any given schema inputs? 
+
+Also, how might the output be more directly useful to the data-migration. Rather than producing more reports for people to read, could the system directly or indirectly support the migration itself (using python for migration to MongoDB is usually clean). 
+
+
+## Optional Constraints:
+1. You cannot pass both schemas to an LLM in a single prompt and receive a finished mapping.
+2. The confidence, reasoning, notes report fields cannot be completed by generative AI, but must be meaningfully filled deterministically so as to be repeatable and auditable.
+
 
 (Note: This is an arbitrary and artificial constraint, but consider how it might resemble real-world factors to work around and comment in your writeup.)
 
